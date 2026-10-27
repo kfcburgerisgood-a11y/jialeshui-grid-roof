@@ -1,0 +1,25 @@
+{
+    "name": "Roof Design",
+    "nickname": "Design",
+    "category": "Grid Roof",
+    "subcategory": "Design",
+    "description": "Every design step, from beams to the kit of parts. Mesh design over bounds with Volumetric Mesh to see it.",
+    "exposure": 2,
+    "instanceGuid": "b17db4b5-00ce-4994-a785-b25417074744",
+    "ghpython": {
+        "iconDisplay": 2,
+        "inputParameters": [
+            {"name": "brief", "description": "From Roof Brief."},
+            {"name": "drawing", "description": "From Roof Drawing."},
+            {"name": "run", "description": "False holds the last result while you change things upstream. Unwired, it runs.", "typeHintID": "bool"}
+        ],
+        "outputParameters": [
+            {"name": "roof", "description": "Every step's result, for Roof Piece."},
+            {"name": "design", "description": "The designed roof, before weathering: a volumetric object for Volumetric Mesh."},
+            {"name": "bounds", "description": "The roof's box, for Volumetric Mesh."},
+            {"name": "pieces", "description": "The kit of parts, one box per piece."},
+            {"name": "names", "description": "Each piece's name, in the order of pieces, for Roof Piece."},
+            {"name": "report", "description": "What the checks say: water, light, kit."}
+        ]
+    }
+}

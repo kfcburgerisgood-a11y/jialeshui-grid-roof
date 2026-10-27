@@ -1,0 +1,23 @@
+{
+    "name": "Roof Piece",
+    "nickname": "Piece",
+    "category": "Grid Roof",
+    "subcategory": "Make",
+    "description": "One piece of the kit, weathered and jointed, as a Rhino mesh. A few seconds at 40 mm; minutes at 12.",
+    "exposure": 2,
+    "instanceGuid": "cc8d4f64-623a-415a-917b-32b67f898d33",
+    "ghpython": {
+        "iconDisplay": 2,
+        "inputParameters": [
+            {"name": "roof", "description": "From Roof Design."},
+            {"name": "brief", "description": "The same brief Roof Design used."},
+            {"name": "name", "description": "A piece's name, from Roof Design's names. Defaults to the first.", "typeHintID": "str"},
+            {"name": "voxel", "description": "Sample spacing, mm. Defaults to the brief's. 40 to look, 10 to 15 to make.", "typeHintID": "float"},
+            {"name": "run", "description": "False holds the last result while you change things upstream. Unwired, it runs.", "typeHintID": "bool"}
+        ],
+        "outputParameters": [
+            {"name": "mesh", "description": "The piece, weathered, with its dowel sockets."},
+            {"name": "report", "description": "Size, dowels, triangles, watertight, and beam depth for nodes and beams."}
+        ]
+    }
+}

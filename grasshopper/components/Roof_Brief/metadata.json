@@ -1,0 +1,28 @@
+{
+    "name": "Roof Brief",
+    "nickname": "Brief",
+    "category": "Grid Roof",
+    "subcategory": "Design",
+    "description": "Every number the roof depends on. Unwired inputs keep the defaults, or the values in file.",
+    "exposure": 2,
+    "instanceGuid": "5bd0774d-48c1-4fb7-8b18-8ab1653509c4",
+    "ghpython": {
+        "iconDisplay": 2,
+        "inputParameters": [
+            {"name": "file", "description": "A brief.json, as the notebook saves it. Optional.", "typeHintID": "str"},
+            {"name": "beam", "description": "Beam width, mm. Default 600.", "typeHintID": "float"},
+            {"name": "beam_depth", "description": "Depth every beam keeps, mm. Default 500.", "typeHintID": "float"},
+            {"name": "skin", "description": "Solid deck over the pores, mm. Default 120.", "typeHintID": "float"},
+            {"name": "pore", "description": "Pore to pore, mm. Default 700.", "typeHintID": "float"},
+            {"name": "fraction_soffit", "description": "Solid share at the soffit, 0 to 1. Default 0.42.", "typeHintID": "float"},
+            {"name": "opening_flare", "description": "How much wider a light opening is at the faces, mm. Default 260.", "typeHintID": "float"},
+            {"name": "planter_depth", "description": "Planter soil depth, mm. Default 350.", "typeHintID": "float"},
+            {"name": "panel", "description": "Largest panel, mm. Default 3000.", "typeHintID": "float"},
+            {"name": "voxel", "description": "Sample spacing, mm: 40 to look, 10 to 15 to make. Default 40.", "typeHintID": "float"}
+        ],
+        "outputParameters": [
+            {"name": "brief", "description": "The brief, for Roof Design and Roof Piece."},
+            {"name": "numbers", "description": "Every number in the brief, one per line."}
+        ]
+    }
+}

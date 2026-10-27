@@ -1,0 +1,22 @@
+{
+    "name": "Roof Drawing",
+    "nickname": "Drawing",
+    "category": "Grid Roof",
+    "subcategory": "Design",
+    "description": "Light openings, planters and drains, drawn in Rhino in mm on the 18 x 12 m plan. Unwired inputs keep the sample drawing, or the one in file.",
+    "exposure": 2,
+    "instanceGuid": "26497f04-88c9-4e82-85dc-c074010d25e8",
+    "ghpython": {
+        "iconDisplay": 2,
+        "inputParameters": [
+            {"name": "file", "description": "A drawing.json. Optional; without it, the sample drawing.", "typeHintID": "str"},
+            {"name": "openings", "description": "Closed curves: light openings, cut through the slab.", "typeHintID": "curve", "scriptParamAccess": "list"},
+            {"name": "planters", "description": "Closed curves: planting pockets.", "typeHintID": "curve", "scriptParamAccess": "list"},
+            {"name": "drains", "description": "Points: rainwater outlets.", "typeHintID": "point", "scriptParamAccess": "list"}
+        ],
+        "outputParameters": [
+            {"name": "drawing", "description": "The drawing, for Roof Design."},
+            {"name": "outlines", "description": "The openings and planters as the roof reads them, to check against your curves."}
+        ]
+    }
+}

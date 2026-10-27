@@ -1,0 +1,72 @@
+#!/usr/bin/env bash
+#
+# Build the roof's Grasshopper components with ghuser-builder (git.rccn.dev/libs/ghuser-builder),
+# the same way compas_vol/scripts/ghuser builds compas_vol's.
+#
+#   scripts/ghuser dev            # Mac + Rhino 8: build, link into Grasshopper as roof-dev, check, reload
+#   scripts/ghuser dev build      # build and verify into build/ghuser-dev only; Grasshopper untouched
+#   scripts/ghuser dev status     # what Grasshopper will load, and anything wrong with it
+#   scripts/ghuser dev uninstall  # remove the link
+#   scripts/ghuser                # Docker, as CI: dist/ghuser/, to attach to a GitHub release
+#
+# Dev builds add `# env: <this checkout>`, so Rhino imports grid_roof from the
+# working copy. compas_vol must be importable in Rhino's Python too: install it
+# there (docs/grasshopper.md), or deploy compas_vol's own dev build.
+#
+# Environment:
+#   GHUSER_BUILDER         ghuser-builder checkout (default: ../ghuser-builder, then ../../ghuser-builder)
+#   GHUSER_BUILDER_IMAGE   image to run (default: the registry's 1.0.0)
+
+set -euo pipefail
+
+root=$(cd "$(dirname "$0")/.." && pwd)
+components=grasshopper/components
+cd "$root"
+
+# The checkout next to this repository wins; one further up is a fallback. With
+# two on disk it is easy to build with the wrong one and not know it, so say
+# which is used, and warn when there is a choice.
+builder=${GHUSER_BUILDER:-}
+if [ -z "$builder" ]; then
+    found=()
+    for candidate in ../ghuser-builder ../../ghuser-builder; do
+        [ -d "$candidate/tools" ] && found+=("$(cd "$candidate" && pwd)")
+    done
+    if [ ${#found[@]} -gt 0 ]; then
+        builder=${found[0]}
+        if [ ${#found[@]} -gt 1 ] && [ "${found[0]}" != "${found[1]}" ]; then
+            echo "ghuser: two ghuser-builder checkouts; using ${found[0]}, not ${found[1]} (set GHUSER_BUILDER to choose)" >&2
+        fi
+    fi
+fi
+if [ -n "$builder" ]; then
+    echo "ghuser: ghuser-builder $builder ($(git -C "$builder" describe --always --dirty 2>/dev/null || echo 'not a git checkout'))" >&2
+fi
+
+if [ "${1:-}" = dev ]; then
+    shift
+    [ -n "$builder" ] || { echo "ghuser: no ghuser-builder checkout; git clone https://git.rccn.dev/libs/ghuser-builder.git next to this checkout, or set GHUSER_BUILDER" >&2; exit 2; }
+    case "${1:-}" in
+        status|uninstall) exec uv run --quiet "$builder/local/ghuser_dev.py" "$1" build/ghuser-dev "${@:2}" ;;
+        build) exec uv run --quiet "$builder/local/ghuser_dev.py" build "$components" build/ghuser-dev --env . "${@:2}" ;;
+    esac
+    exec uv run --quiet "$builder/local/ghuser_dev.py" deploy "$components" build/ghuser-dev --env . "$@"
+fi
+
+image=${GHUSER_BUILDER_IMAGE:-git.rccn.dev:5050/libs/ghuser-builder:1.0.0}
+if ! docker image inspect "$image" >/dev/null 2>&1 && ! docker pull "$image" >/dev/null 2>&1; then
+    [ -n "$builder" ] || { echo "ghuser: cannot pull $image and no ghuser-builder checkout to build it from" >&2; exit 2; }
+    image=ghuser-builder:local
+    echo "==> registry unreachable; building $image from $builder"
+    docker build -q -t "$image" "$builder" >/dev/null
+fi
+
+# Releases are versioned by tag in CI; locally, use the package version so the
+# Info component says which library the components were built against.
+version=${GHUSER_VERSION:-$(sed -n 's/^version = "\(.*\)"/\1/p' pyproject.toml | head -1)}
+
+exec docker run --rm \
+    -v "$root:/work" -w /work \
+    -u "$(id -u):$(id -g)" -e HOME=/tmp \
+    -e GHUSER_PREFIX -e GHUSER_YAK_NAME -e GHUSER_YAK_INCLUDE \
+    "$image" ghuser-build --version "$version" "$@" "$components" dist
