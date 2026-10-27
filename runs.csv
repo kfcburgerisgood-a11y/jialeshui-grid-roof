@@ -1,0 +1,2 @@
+run_id,日期,步驟,改了什麼,舊值,新值,voxel(mm),計算秒數,封閉,W_eff平均,H_am平均,H_pm平均,光斑誤差max,積水點數,保留材料被挖掉量,件數,備註
+m2-001,2026-10-28,body,新增 body: A 測試 box -> VolGrid.from_mesh -> Shell(side=1.0) -> design,slab,body T=300 res=270,40,1175.2,True,,,,,,,,box 上跑; 無 water/voids/pores; 未在 Rhino 跑

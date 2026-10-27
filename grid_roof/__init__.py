@@ -15,7 +15,7 @@ An application of compas_vol. On a Grasshopper canvas its parts would be:
 here.
 """
 
-from . import nodes, preview, printing
+from . import body, nodes, preview, printing
 from .brief import Brief
 from .checks import beam_depth, clear_apertures
 from .design import (
@@ -62,6 +62,7 @@ __all__ = [
     "beam_bands",
     "beam_depth",
     "beams",
+    "body",
     "blob",
     "box",
     "carve",
