@@ -4,7 +4,7 @@
 
 - 正本 git repo：上方第一行路徑。
 - 鏡像樹 `/workspace/jialeshui/`：**不是 git repo**。副本：`docs/ops-STATE.md`、`ops-TASKS.md`。
-- 目前分支：`m2-body` @ `79b5e2d`（已 push）
+- 目前分支：`m2-body` @ `260b3a1`（已 push）
 - 里程碑：M2 半通過（T-003 DONE；T-004 SubD body DONE，單位已鎖）
 - runs.csv：repo 根目錄。
 
