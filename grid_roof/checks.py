@@ -4,7 +4,32 @@ import numpy as np
 
 from .design import region
 
-__all__ = ["clear_apertures", "beam_depth"]
+__all__ = ["clear_apertures", "beam_depth", "body_keep"]
+
+
+def body_keep(body):
+    """Sample keep containment on the body's source grid (mm, mm³).
+
+    Counts strictly interior keep samples, so an empty or unresolved band is
+    visible. This checks composition only, not physical backplate thickness
+    or margin. Report ``spacing_mm`` with every result.
+    """
+    field = body.field
+    x, y, z = [o + np.arange(n) * s for o, n, s in zip(field.origin, field.values.shape, field.spacing)]
+    grid = (x[:, None, None], y[None, :, None], z[None, None, :])
+    kept = body.keep.get_distance_numpy(*grid)
+    solid = body.design.roof.get_distance_numpy(*grid)
+    shell = body.shell.get_distance_numpy(*grid)
+    inside = kept < 0
+    missing = inside & (solid > 0)
+    return {
+        "spacing_mm": list(field.spacing),
+        "kept_samples": int(inside.sum()),
+        "missing_samples": int(missing.sum()),
+        "missing_volume_mm3": float(missing.sum() * np.prod(field.spacing)),
+        "keep_outside_shell_samples": int((inside & (shell > 0)).sum()),
+        "max_missing_depth_mm": float(-kept[missing].min()) if missing.any() else 0.0,
+    }
 
 
 def clear_apertures(brief, drawing, roof, step=50.0):

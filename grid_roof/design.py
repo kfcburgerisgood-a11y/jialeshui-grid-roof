@@ -272,14 +272,20 @@ class Roof:
     weathering: object
 
 
-def design_roof(brief, drawing):
+def design_roof(brief, drawing=None, *, body_mesh=None):
     """Every step, in order: the whole definition as one call.
 
     Returns
     -------
-    :class:`Roof`
-        Each step's output, by name.
+    :class:`Roof` or :class:`grid_roof.body.BodyRoof`
+        Each step's output, by name. Pass ``body_mesh`` (closed, in mm) to
+        select body_shell + inner b_min keep through design. That route uses
+        the mesh bbox and does not run slab water, openings, pores or kit.
     """
+    if body_mesh is not None:
+        from .body import build_body
+
+        return build_body(brief, body_mesh)
     b = beams(brief)
     incision = water(brief, drawing, b)
     s = slab(brief, incision)

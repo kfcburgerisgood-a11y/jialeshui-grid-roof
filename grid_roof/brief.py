@@ -27,6 +27,8 @@ class Brief:
     length: float = 18000.0
     width: float = 12000.0
     thickness: float = 600.0
+    body_thickness: float = 300.0       # 推定 T for body_shell; §8 remains undecided
+    b_min: float = 100.0                # 推定 inner backplate, mm; preview value, not verified margin
     grid_x: list = field(default_factory=lambda: [0.0, 6000.0, 12000.0, 18000.0])
     grid_y: list = field(default_factory=lambda: [0.0, 6000.0, 12000.0])
     beam: float = 600.0                 # beam width
