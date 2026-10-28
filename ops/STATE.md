@@ -4,7 +4,7 @@
 
 - 正本 git repo：上方第一行路徑。
 - 鏡像樹 `/workspace/jialeshui/`：**不是 git repo**。副本：`docs/ops-STATE.md`、`ops-TASKS.md`。
-- 目前分支：`m2-body` @ `e2d293c`（已 push）
+- 目前分支：`m2-body` @ `185bad4`（已 push）
 - 里程碑：M2 半通過（T-003／T-004 DONE；T-005 進行中；整顆 M2 未過）
 - runs.csv：repo 根目錄。
 
@@ -23,5 +23,5 @@
 
 ## 待辦
 - T-001／T-002／T-003／T-004：DONE
-- T-005：進行中（design／notebook → body_shell＋keep）；**改派 Codex**（Claude session limit→19:00 Taipei）
+- T-005：**PARTIAL**（Codex 完成程式／測試；原 `.git` 曾唯讀故以 bundle 交付；已匯回；待挑洞審）
 - T-006 可並行
