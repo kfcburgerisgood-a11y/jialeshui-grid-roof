@@ -1,0 +1,83 @@
+{
+ "voxel": 40.0,
+ "res": 270,
+ "secs": 1069.8,
+ "closed": true,
+ "bbox": [
+  10000.0,
+  6000.0,
+  4000.0
+ ],
+ "mesh_volume": 240000000000.0,
+ "probes": [
+  {
+   "probe": "centre(5000,3000,2000)",
+   "field": -1986.1,
+   "field_expect": -2000,
+   "field_err": 13.9,
+   "shell": 1686.1,
+   "shell_expect": 1700.0
+  },
+  {
+   "probe": "outer x=0",
+   "field": -3.7,
+   "field_expect": 0,
+   "field_err": -3.7,
+   "shell": -3.7,
+   "shell_expect": 0.0
+  },
+  {
+   "probe": "mid-wall x=150",
+   "field": -150.1,
+   "field_expect": -150,
+   "field_err": -0.1,
+   "shell": -149.9,
+   "shell_expect": -150.0
+  },
+  {
+   "probe": "inner x=300",
+   "field": -300.0,
+   "field_expect": -300,
+   "field_err": -0.0,
+   "shell": 0.0,
+   "shell_expect": 0.0
+  },
+  {
+   "probe": "outer z=4000(top)",
+   "field": 0.4,
+   "field_expect": 0,
+   "field_err": 0.4,
+   "shell": 0.4,
+   "shell_expect": 0.0
+  },
+  {
+   "probe": "mid-wall z=3850",
+   "field": -150.1,
+   "field_expect": -150,
+   "field_err": -0.1,
+   "shell": -149.9,
+   "shell_expect": -150.0
+  },
+  {
+   "probe": "inner z=3700",
+   "field": -300.1,
+   "field_expect": -300,
+   "field_err": -0.1,
+   "shell": 0.1,
+   "shell_expect": 0.0
+  }
+ ],
+ "grid_shape": [
+  270,
+  171,
+  121
+ ],
+ "spacing": [
+  40.14869888475837,
+  40.14869888475837,
+  40.14869888475837
+ ],
+ "solid_vol_count": 242686542366.6521,
+ "shell_vol_count": 70200479991.14725,
+ "cell_mm3": 64716.41129777389
+}
