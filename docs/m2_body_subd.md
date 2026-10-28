@@ -3,8 +3,8 @@
 輸入：`inputs/body_a_subd.stl`（歐郎 A 版 SubD 匯出）。腳本：`uv run python scripts/m2_subd.py <voxel> <run_id>`。原始：`docs/m2_subd_v100.json`、`docs/m2_subd_v40.json`。
 殼：`Shell(field, T=300 推定, side=1.0)` → `design_body`（跑完無例外，回傳 `Design`）。慣例：內負、邊界 0、外正。
 
-## 單位問題（⚠ 需歐郎確認）
-STL 原始 bbox = 9.0 × 9.0 × 1.45（V=426, F=848）——**不是 mm**（若是 mm 只有 9 mm 大）。判斷為以公尺匯出，腳本中 `mesh.scale(1000)`（**推定**）。下列數值皆為縮放後 mm。若實際尺寸不是 9 m × 9 m，請重新以 mm 匯出。
+## 單位（已鎖定 2026-10-28）
+STL 原始 bbox = 9.0 × 9.0 × 1.45（V=426, F=848）——座標單位為 **公尺**（若當 mm 只有 9 mm 大）。歐郎確認真實尺寸約 **9 m × 9 m × 1.45 m**，並決定鎖定 `mesh.scale(1000)` → mm；**不**重匯。下列數值皆為縮放後 mm。此縮放僅適用本檔 `body_a_subd.stl`，不是通用匯入規則。
 
 ## mesh 檢查
 | 項目 | 值 |

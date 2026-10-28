@@ -7,7 +7,7 @@ from grid_roof import body as B
 root = Path(__file__).resolve().parents[1]
 voxel = float(sys.argv[1]); run_id = sys.argv[2]
 mesh = B.load_body(root / "inputs" / "body_a_subd.stl")
-SCALE = 1000.0  # ASSUMPTION: STL bbox 9x9x1.5 => exported in metres, not mm
+SCALE = 1000.0  # LOCKED 2026-10-28 by 歐郎: real size ~9×9×1.45 m; STL coords in metres → ×1000 to mm
 mesh.scale(SCALE)
 pts = np.array([mesh.vertex_coordinates(v) for v in mesh.vertices()])
 lo, hi = pts.min(0), pts.max(0); c = (lo + hi) / 2
@@ -54,6 +54,6 @@ row = {"run_id": run_id, "日期": datetime.date.today().isoformat(), "步驟": 
        "改了什麼": "T-004 SubD A (stl) -> Shell -> design_body", "舊值": "", "新值": f"T=300 side=1.0 res={res}",
        "voxel(mm)": voxel, "計算秒數": round(secs, 1), "封閉": out["closed"], "W_eff平均": "", "H_am平均": "",
        "H_pm平均": "", "光斑誤差max": "", "積水點數": "", "保留材料被挖掉量": "", "件數": "",
-       "備註": f"centre field={rows[0]['field']} shell={rows[0]['shell']}; mesh vol={out['mesh_volume']:.4g} mm3; SubD A; STL in m, scaled x1000 (assumed)"}
+       "備註": f"centre field={rows[0]['field']} shell={rows[0]['shell']}; mesh vol={out['mesh_volume']:.4g} mm3; SubD A; STL in m, scaled x1000 (LOCKED 2026-10-28)"}
 with (root / "runs.csv").open("a", newline="", encoding="utf-8") as fh:
     csv.DictWriter(fh, fieldnames=list(row)).writerow(row)
