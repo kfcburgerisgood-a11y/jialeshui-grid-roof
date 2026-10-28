@@ -4,7 +4,7 @@
 
 - 正本 git repo：上方第一行路徑。所有 bot 與 Claude 只認這裡。
 - 鏡像樹 `/workspace/jialeshui/`：放 design-framework、docs、epw、fields 等資料，**不是 git repo**。指標副本：`/workspace/jialeshui/docs/ops-STATE.md`、`ops-TASKS.md`。
-- 目前分支：`m2-body` @ `3481b92`（尚未 push；其上為 T-001；body 實作起點仍為 `215759e`）
+- 目前分支：`m2-body` @ `7b15427`（尚未 push；T-001 bootstrap `3481b92`；body 實作起點 `215759e`）
 - 里程碑：M2 半通過（M0、M1 已完成）
 - runs.csv：位於 repo 根目錄 `runs.csv`（設計總綱 7.3），不在 ops/ 重複。
 
@@ -32,7 +32,7 @@
 - `inputs/body_a_subd.3dm`：歐郎 A 版 SubD（已收）；需 `.obj`／`.stl` mesh 才能跑 body（環境尚無 rhino3dm／Rhino）
 
 ## 待辦／卡住
-- T-001：DONE（`3481b92`）
+- T-001：DONE（`7b15427`（含 closeout；bootstrap `3481b92`））
 - T-002 GitHub push：卡住，等歐郎設定權限（勿把權杖貼聊天）
 - 下一張建議：T-003（方盒驗證表）
 - T-004 等 mesh；T-005 前置 T-003；T-006 可並行（需 EPW＋風場規格）
