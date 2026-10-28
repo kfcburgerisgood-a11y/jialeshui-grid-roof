@@ -3,3 +3,4 @@ m2-001,2026-10-28,body,新增 body: A 測試 box -> VolGrid.from_mesh -> Shell(s
 m2-003,2026-10-28,body-verify,T-003 方盒驗證表(中心/外/內/mid-wall/體積),,T=300 side=1.0 res=108,100.0,8.7,True,,,,,,,,centre field=-1965.1 (expect -2000±100); mesh vol=2.4e+11 mm3; TEST MESH
 m2-004,2026-10-28,body-verify,T-003 方盒驗證表(中心/外/內/mid-wall/體積),,T=300 side=1.0 res=270,40.0,1069.8,True,,,,,,,,centre field=-1986.1 (expect -2000±40); mesh vol=2.4e+11 mm3; TEST MESH
 m2-005,2026-10-28,body-subd,T-004 SubD A (stl) -> Shell -> design_body,,T=300 side=1.0 res=99,100.0,1.0,True,,,,,,,,"centre field=-572.0 shell=272.0; mesh vol=8.198e+10 mm3; SubD A; STL in m, scaled x1000 (assumed)"
+m2-006,2026-10-28,body-subd,T-004 SubD A (stl) -> Shell -> design_body,,T=300 side=1.0 res=246,40.0,46.0,True,,,,,,,,"centre field=-572.0 shell=272.0; mesh vol=8.198e+10 mm3; SubD A; STL in m, scaled x1000 (assumed)"
