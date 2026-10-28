@@ -23,5 +23,5 @@
 
 ## 待辦
 - T-001／T-002／T-003／T-004：DONE
-- T-005：進行中（design／notebook → body_shell＋keep）
+- T-005：進行中（design／notebook → body_shell＋keep）；**改派 Codex**（Claude session limit→19:00 Taipei）
 - T-006 可並行
