@@ -2,37 +2,24 @@
 
 # 久逃 ops 狀態（STATE）
 
-- 正本 git repo：上方第一行路徑。所有 bot 與 Claude 只認這裡。
-- 鏡像樹 `/workspace/jialeshui/`：放 design-framework、docs、epw、fields 等資料，**不是 git repo**。指標副本：`/workspace/jialeshui/docs/ops-STATE.md`、`ops-TASKS.md`。
-- 目前分支：`m2-body` @ `a3efc21`（**已 push** origin/m2-body；body 起點 `215759e`）
-- 里程碑：M2 半通過（M0、M1 已完成）
-- runs.csv：位於 repo 根目錄 `runs.csv`（設計總綱 7.3），不在 ops/ 重複。
+- 正本 git repo：上方第一行路徑。
+- 鏡像樹 `/workspace/jialeshui/`：**不是 git repo**。副本：`docs/ops-STATE.md`、`ops-TASKS.md`。
+- 目前分支：`m2-body` @ `57c4b2b`（已 push；body 起點 `215759e`）
+- 里程碑：M2 半通過（T-003 驗證表 DONE；幾何關待 T-004）
+- runs.csv：repo 根目錄。
 
 ## 已做決策
-- ①A 半通過（API 接通）；整顆 M2 暫緩至補件
-- ②A 方盒暫代 A 版（A-proxy）；真 SubD mesh 進 load_body 重跑後才算幾何關
-- 殼厚 T = 300 mm：推定值，設計總綱 §8 未定案，需歐郎決定
-- voxel 40 用於預覽
-- 半通過理由／補件：見 `docs/m2_body_挑洞.md`
+- ①A 半通過；②A 方盒 A-proxy；T=300 推定；voxel 40 預覽
+- T-003：body_field 中心≈−2000、body_shell 腔心為正——已驗（voxel100／40）
 
-## 角色調整（依指揮總綱 §1）
-- Claude Code：主要開發者
-- 格草：整合／環境／依賴（不與 Claude 同改一檔）
-- 風場：環境場規格／資料來源（不直接改程式）
-- 挑洞：里程碑結束審查
-- 共匪：總指揮（不寫程式、不代簽通過）
-
-## Claude CLI
-- 路徑：`/home/box/.local/bin/claude`，版本 2.1.197
-- 派工範例：`claude -p "請執行 ops/tasks/T-xxx.md…" --output-format json`
-- 確切參數：待第一次成功執行後補記。
+## 角色
+- Claude Code 開發；格草整合；風場規格；挑洞審查；共匪總指揮
 
 ## 輸入
-- `inputs/body_a.obj`：測試方盒 10000×6000×4000 mm
-- `inputs/body_a_subd.stl`／`.3dm`：歐郎 A 版（stl 已 force-add）
+- `inputs/body_a.obj` 測試方盒
+- `inputs/body_a_subd.stl`／`.3dm` 歐郎 A 版
 
-## 待辦／卡住
-- T-001：DONE
-- T-002：DONE（已 push）
-- T-003：進行中
-- T-004：等 T-003；T-005 前置 T-003；T-006 可並行（需 EPW＋風場規格）
+## 待辦
+- T-001／T-002／T-003：DONE
+- T-004：進行中
+- T-005 前置 T-003；T-006 可並行
