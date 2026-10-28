@@ -1,0 +1,83 @@
+{
+  "voxel_mm": 100.0,
+  "body_thickness_mm": 300.0,
+  "b_min_mm": 100.0,
+  "thickness_status": "provisional; physical thickness and margin unverified",
+  "mesh": "body_a.obj TEST BOX; translated to bbox centre, no re-export",
+  "closed": true,
+  "bbox_mm": [
+    -5000.0,
+    -3000.0,
+    -2000.0,
+    5000.0,
+    3000.0,
+    2000.0
+  ],
+  "centre_mm": [
+    0.0,
+    0.0,
+    0.0
+  ],
+  "centre_design_mm": 1665.1346205361958,
+  "seconds": 21.34,
+  "initial": {
+    "spacing_mm": [
+      100.93457943925233,
+      100.93457943925233,
+      100.93457943925233
+    ],
+    "kept_samples": 20952,
+    "missing_samples": 0,
+    "missing_volume_mm3": 0.0,
+    "keep_outside_shell_samples": 0,
+    "max_missing_depth_mm": 0.0
+  },
+  "diagnostic_cut": {
+    "spacing_mm": [
+      100.93457943925233,
+      100.93457943925233,
+      100.93457943925233
+    ],
+    "kept_samples": 20952,
+    "missing_samples": 20952,
+    "missing_volume_mm3": 21544946441.879993,
+    "keep_outside_shell_samples": 0,
+    "max_missing_depth_mm": 44.13819614588044
+  },
+  "restored": {
+    "spacing_mm": [
+      100.93457943925233,
+      100.93457943925233,
+      100.93457943925233
+    ],
+    "kept_samples": 20952,
+    "missing_samples": 0,
+    "missing_volume_mm3": 0.0,
+    "keep_outside_shell_samples": 0,
+    "max_missing_depth_mm": 0.0
+  },
+  "probes": {
+    "outer_skin": {
+      "at_mm": [
+        0.0,
+        0.0,
+        -1950.0
+      ],
+      "field_mm": -53.97657436482797,
+      "shell_mm": -53.97657436482797,
+      "keep_mm": 146.02342563517203,
+      "design_mm": -53.97657436482797
+    },
+    "backplate_mid": {
+      "at_mm": [
+        0.0,
+        0.0,
+        -1750.0
+      ],
+      "field_mm": -250.20899681892823,
+      "shell_mm": -49.79100318107177,
+      "keep_mm": -49.79100318107177,
+      "design_mm": -49.79100318107177
+    }
+  }
+}

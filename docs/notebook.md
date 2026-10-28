@@ -7,6 +7,32 @@ definition: one cell per group of components, with the code as the parameters.
 uv run jupyter lab walkthrough.ipynb
 ```
 
+## M2 body_shell entry (T-005)
+
+Open `body_walkthrough.ipynb` and set `SOURCE = "body_shell"` (default) or
+`SOURCE = "slab"`. Both call `roof.design_roof`; the body branch passes
+`body_mesh=mesh` and stops at design with a separate inner backplate keep.
+`walkthrough.ipynb` remains the complete slab fabrication walkthrough.
+
+The body preview loads the existing `inputs/body_a.obj` test box in mm and
+centres it to exercise negative coordinates. Its sections and checks use the
+mesh bbox, not `brief.bounds`. An already-mm closed mesh can be substituted.
+The metre-unit SubD STL still needs the file-specific conversion in
+`scripts/m2_subd.py`; `load_body` does no scaling.
+
+`Brief(body_thickness=300, b_min=100, voxel=100)` uses provisional preview
+thicknesses in mm. The keep band is `-T <= field <= -(T-b_min)` on the inside
+of the shell. The check reports source-grid spacing, kept sample count and
+missing material. It does not verify physical backplate thickness or margin;
+thin curved shells and T=300 remain unverified. Slab water, openings, pores,
+kit and weathering are not connected to the body route by this task.
+
+Reproduce the recorded diagnostic run with:
+
+```bash
+uv run python scripts/m2_design.py 100 <new-run-id>
+```
+
 ## Jupyter in brief
 
 | To | Do |
