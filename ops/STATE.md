@@ -4,7 +4,7 @@
 
 - 正本 git repo：上方第一行路徑。所有 bot 與 Claude 只認這裡。
 - 鏡像樹 `/workspace/jialeshui/`：放 design-framework、docs、epw、fields 等資料，**不是 git repo**。指標副本：`/workspace/jialeshui/docs/ops-STATE.md`、`ops-TASKS.md`。
-- 目前分支：`m2-body` @ `b20b511`（尚未 push；body 起點 `215759e`）
+- 目前分支： @ （**已 push** origin/m2-body；body 起點 ）
 - 里程碑：M2 半通過（M0、M1 已完成）
 - runs.csv：位於 repo 根目錄 `runs.csv`（設計總綱 7.3），不在 ops/ 重複。
 
@@ -33,6 +33,6 @@
 
 ## 待辦／卡住
 - T-001：DONE
-- T-002：進行中（歐郎 gh auth）
+- T-002：DONE（已 push  @ ）
 - T-003：進行中（Claude）；T-004 卡已寫（等 T-003 或並行）
 - T-004 等 mesh；T-005 前置 T-003；T-006 可並行（需 EPW＋風場規格）
