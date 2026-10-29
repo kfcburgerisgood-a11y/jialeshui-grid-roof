@@ -86,7 +86,7 @@ def main(run_id):
     row = dict.fromkeys(fields, "")
     row.update({
         "run_id": run_id, "日期": datetime.date.today().isoformat(), "步驟": "wind-field-w-eff",
-        "改了什麼": "T-008 grid_roof.wind_field.wind_field(mesh) on body_a_subd.stl faces: W, V_wind (ray-vs-mesh occlusion), W_eff",
+        "改了什麼": "T-008 wind_field(mesh): W, V_wind (ray-vs-mesh occlusion), W_eff on body_a_subd.stl faces",
         "舊值": "none (new field, M3 start)",
         "新值": f"theta_deg={result['theta_deg']:g} (ENE, WIND_DEFAULT, locked/推定) eps={result['eps_mm']:g}mm",
         "voxel(mm)": "", "計算秒數": "", "封閉": mesh.is_closed(),
