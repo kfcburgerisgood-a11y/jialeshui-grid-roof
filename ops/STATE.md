@@ -1,7 +1,6 @@
 # 久逃 ops 狀態（STATE）
 
 - 正本：`/workspace/jialeshui/workshop/jialeshui-grid-roof`
-- 分支：`m2-body` @ tip（T-006b 後）
-- 里程碑：M2 限定通過；**T-006／T-006b DONE**；**M3 未開**
-- 決策：舊圖／單一 ENE＝C；EPW 夏衝突＝推定
-- 下一刀候選：M3 表面場（W_eff／H／S）最小煙測、或 Ladybug 太陽向量對照、或接格草取樣遮罩——待共匪整理選項給歐郎
+- 分支：建議 `m3-fields`（自 `m2-body`）
+- 里程碑：M2 限定通過；T-006／T-006b DONE；**T-008 進行中（M3 起步）**
+- 決策：舊圖 ENE＝C；下一刀＝W_eff 含遮擋（歐郎 2026-10-29「1」）
