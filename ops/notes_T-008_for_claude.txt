@@ -1,0 +1,1 @@
+T-008: 風場探針已到 fields/T-008_probe_expectations.md + .csv。射線必須 +u_wind；對齊 P6 V=0 vs P7 V=1。

@@ -1,0 +1,11 @@
+probe_id,geometry,px,py,pz,nx,ny,nz,W,V_wind,W_eff
+P1_E_windward,BOX0,500,0,0,1,0,0,0.9238795,1,0.9238795
+P2_W_leeward,BOX0,-500,0,0,-1,0,0,0,unchecked,0
+P3_N_partial,BOX0,0,500,0,0,1,0,0.3826834,1,0.3826834
+P4_S,BOX0,0,-500,0,0,-1,0,0,unchecked,0
+P5_top,BOX0,0,0,500,0,0,1,0,unchecked,0
+P5b_bottom,BOX0,0,0,-500,0,0,-1,0,unchecked,0
+P6_occluded,TGT+BLK,500,0,0,1,0,0,0.9238795,0,0
+P7_control,BOX0,500,0,0,1,0,0,0.9238795,1,0.9238795
+P8_N_not_occluded,TGT+BLK,0,500,0,0,1,0,0.3826834,1,0.3826834
+P9_blk_E,TGT+BLK,3500,1000,0,1,0,0,0.9238795,1,0.9238795
