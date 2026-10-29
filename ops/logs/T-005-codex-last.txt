@@ -1,0 +1,8 @@
+T-005 實作與測試完成，交付狀態 **PARTIAL（環境限制）**。
+
+- design／notebook 可選 `body_shell`，已有獨立 `b_min` keep。
+- voxel=100 mm：診斷切除流失 20,952 個 keep 取樣點，design 補回後為 0；已記入 `runs.csv`。
+- pytest：**85 passed**；notebook 兩分支逐 cell 執行成功。
+- 背板裕度、薄殼 T=300 仍未驗證。
+
+原 repo `.git` 唯讀，Jupyter kernel socket 亦被禁止；未 push。三筆小步 commits 已保存於 [Git bundle](/workspace/jialeshui/workshop/jialeshui-grid-roof/ops/reports/T-005.bundle)，完整數值、hash 與阻礙見[報告](/workspace/jialeshui/workshop/jialeshui-grid-roof/ops/reports/T-005.md)。

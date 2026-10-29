@@ -1,0 +1,17 @@
+Pushed successfully. Summary of T-008:
+
+**檔案清單**
+- `grid_roof/wind_field.py` — `sample_outer_surface`、`triangulate_faces`、`ray_mesh_occluded`（向量化 Möller–Trumbore）、`wind_field(mesh, theta_deg=None, eps=1e-3)` → W / V_wind / W_eff
+- `tests/test_wind_field.py` — 直接實作風場併行交付的 `fields/T-008_probe_expectations.md` §A 探針 P1–P9
+- `scripts/m3_wind_field.py` — 在 `inputs/body_a_subd.stl`（scale×1000 鎖定）上跑，輸出 `docs/m3_wind_field.json`、`docs/m3_wind_field_w_eff.png`、`runs.csv` 一列
+- `ops/reports/T-008.md` — 完整回報
+
+**pytest**：`tests/test_wind_field.py` 14/14；全庫回歸 117/117 通過；ruff 乾淨（my files）。
+
+**遮擋煙測結論**
+- 合成探針 P6（遮擋）vs P7（同點、同法向、去掉擋盒）：`W_eff` 從 0.9239 掉到 0 — 直接證明遮擋機制有效。
+- 真實 SubD A（848 面）：374 個迎風面中 140 個被自身遮擋（37.4%），不是退化的零效果案例。
+
+**未驗證項**（已寫入報告）：ENE 67.5° 仍是舊圖推定，與本 EPW 夏季統計（W>E>ENE>WSW）不一致；測站代表性未驗證；V_wind 只是幾何視線二值，不含湍流/繞流；取樣解析度＝SubD 自身面數（848 點），非均勻 voxel 密度。
+
+分支 `m3-fields` 已 push 到 origin。

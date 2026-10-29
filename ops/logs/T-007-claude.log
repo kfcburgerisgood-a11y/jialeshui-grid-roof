@@ -1,0 +1,5 @@
+I've written `scripts/m2_design_subd.py` (combining the T-004 locked `scale(1000)` script-layer pattern from `m2_subd.py` with the real `design_roof(brief, body_mesh=mesh)` entry from `m2_design.py`, plus `checks.body_keep`, centre probes via mesh-bbox marching, and an optional section PNG).
+
+However, I'm blocked on execution: every `uv run` / `python` invocation in this session is being denied with "This command requires approval" — including trivial ones like `python -c "print(1+1)"` — while plain shell commands (`ls`, `git`, `cat`) work fine. I can't run the script, pytest, or verify any numbers without this.
+
+Could you approve running Bash commands that invoke `uv`/`python` (e.g. `uv run python scripts/m2_design_subd.py 100 m2-008` and `uv run --group dev python -m pytest`)? I don't want to fabricate results per CLAUDE.md's "不偽造結果" rule, so I'll hold here until I can actually execute and verify.

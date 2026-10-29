@@ -1,0 +1,107 @@
+{
+  "voxel_mm": 100.0,
+  "scale_applied": 1000.0,
+  "closed": true,
+  "manifold": true,
+  "V": 426,
+  "F": 848,
+  "body_thickness_mm": 300.0,
+  "b_min_mm": 100.0,
+  "thickness_status": "provisional; physical thickness and margin unverified (Sec.8 undecided)",
+  "mesh": "body_a_subd.stl; script-level scale(1000) LOCKED 2026-10-28 (T-004), not in load_body",
+  "bbox_mm": [
+    -827.9897570610046,
+    -8.881784197001252e-13,
+    -1000.0,
+    8172.01042175293,
+    9000.190734863281,
+    453.09361815452576
+  ],
+  "centre_mm": [
+    3672.0103323459625,
+    4500.095367431641,
+    -273.4531909227371
+  ],
+  "centre_design_mm": 272.03,
+  "seconds": 0.96,
+  "keep_check": {
+    "spacing_mm": [
+      100.00194627411511,
+      100.00194627411511,
+      100.00194627411511
+    ],
+    "kept_samples": 15037,
+    "missing_samples": 0,
+    "missing_volume_mm3": 0.0,
+    "keep_outside_shell_samples": 0,
+    "max_missing_depth_mm": 0.0
+  },
+  "probes": {
+    "x_outer": {
+      "at_mm": [
+        8164.0,
+        4500.1,
+        -273.5
+      ],
+      "field_mm": -1.04,
+      "shell_mm": -1.04,
+      "keep_mm": 198.96,
+      "design_mm": -1.04
+    },
+    "x_mid_wall": {
+      "at_mm": [
+        8014.0,
+        4500.1,
+        -273.5
+      ],
+      "field_mm": -158.36,
+      "shell_mm": -141.64,
+      "keep_mm": 41.64,
+      "design_mm": -141.64
+    },
+    "x_inner": {
+      "at_mm": [
+        7864.0,
+        4500.1,
+        -273.5
+      ],
+      "field_mm": -277.35,
+      "shell_mm": -22.65,
+      "keep_mm": -22.65,
+      "design_mm": -22.65
+    },
+    "z_outer": {
+      "at_mm": [
+        3672.0,
+        4500.1,
+        333.1
+      ],
+      "field_mm": -0.07,
+      "shell_mm": -0.07,
+      "keep_mm": 199.93,
+      "design_mm": -0.07
+    },
+    "z_mid_wall": {
+      "at_mm": [
+        3672.0,
+        4500.1,
+        183.1
+      ],
+      "field_mm": -141.33,
+      "shell_mm": -141.33,
+      "keep_mm": 58.67,
+      "design_mm": -141.33
+    },
+    "z_inner": {
+      "at_mm": [
+        3672.0,
+        4500.1,
+        33.1
+      ],
+      "field_mm": -283.16,
+      "shell_mm": -16.84,
+      "keep_mm": -16.84,
+      "design_mm": -16.84
+    }
+  }
+}

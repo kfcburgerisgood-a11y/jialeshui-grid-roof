@@ -1,0 +1,14 @@
+T-006b complete. Summary:
+
+**Changed files** (all new, nothing in body/keep/design touched):
+- `grid_roof/fields_io.py` — `load_epw_wind_rows`, `sector_histogram`, `u_wind_from_theta_deg`, `sun_vector_ground_to_sun` (plain-trig stub, Ladybug reversal risk documented in docstring, no LB dependency added), and `WIND_DEFAULT` (ENE 67.5°, with `basis` citing the 2026-10-29 歐郎 lock/option C, and `conflict` spelling out the summer-EPW mismatch).
+- `tests/test_fields_io.py` — 18 tests.
+- `ops/reports/T-006b.md` — full report.
+
+**pytest**: 103/103 passed (18 new + 85 existing unaffected), `ruff check` clean. Sector-histogram hour totals cross-checked against the independent `fields/T-006_wind_sector_stats.csv` for annual/winter/spring/summer/autumn — all match.
+
+**Committed** (3 small commits, not pushed): `272bbed` (module+tests), `ebaa13d` (report).
+
+**未驗證（誠實列出）**: W_eff/H/salt untouched; single summer `u_wind` not validated (ENE is carried over per lock, EPW's own summer stats show no single peak — flagged as assumption); `sun_vector_ground_to_sun` never checked against actual Ladybug output (no LB installed); 佳樂水 exact coordinates / station representativeness unresolved; `u_sea`/terrain/honeycomb-origin out of scope.
+
+Left unpushed per report — let me know if you want me to push to `m2-body`.
