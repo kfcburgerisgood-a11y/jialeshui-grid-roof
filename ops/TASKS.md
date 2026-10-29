@@ -4,7 +4,7 @@
 - T-006（可並行）環境場前置
 
 ## 進行中
-- T-007 SubD 走 design_roof(body_mesh=)（Claude；從 145cb18；勿重做 T-005）
+- 挑洞審 T-007（SubD → design_roof；m2-008）
 
 ## 完成
 - T-005 design／notebook → body_shell＋keep（DONE 附條件）
@@ -14,4 +14,4 @@
 - T-001 ops
 
 ## 卡住
-- （無）
+- （無）— Claude 審批擋執行已由共匪代跑化解
