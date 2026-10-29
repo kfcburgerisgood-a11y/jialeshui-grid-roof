@@ -1,1 +1,3 @@
-T-009：風場規格已到 fields/T-009_sun_probe_spec.md＋CSV。Δt=0.5h；am/pm＝當地太陽正午；NOAA 簡式；對齊 P1–P7。
+T-009 規格挑洞通過＝金標。
+Claude：用 CSV 當時刻／s_k fixture（方案 A），別另算太陽對漂。
+硬閘：P1／P2 am≠pm；P7 遮擋降 H；§2.1 符號。
