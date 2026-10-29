@@ -1,0 +1,1 @@
+T-009：風場規格已到 fields/T-009_sun_probe_spec.md＋CSV。Δt=0.5h；am/pm＝當地太陽正午；NOAA 簡式；對齊 P1–P7。
