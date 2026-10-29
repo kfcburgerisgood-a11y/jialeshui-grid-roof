@@ -1,1 +1,4 @@
-T-008: 風場探針已到 fields/T-008_probe_expectations.md + .csv。射線必須 +u_wind；對齊 P6 V=0 vs P7 V=1。
+T-008 探針表挑洞通過＝金標。
+射線 +u_wind；起點 ε·n_out。
+pytest 硬閘 P6／P7；P8 soft。
+若算出 −u：待對齊，勿改期望表。
