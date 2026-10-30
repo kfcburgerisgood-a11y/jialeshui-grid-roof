@@ -1,0 +1,1 @@
+T-010 規格挑洞通過。煙測 A；硬閘 arccos、S∈[0,1]、與風向無關；對純 n（30/45/60）assert；禁 max(n·z,0)。勿改 fields/T-010_slope_spec.md。
