@@ -1,9 +1,14 @@
 """T-009: H_am / H_pm smoke tests against fields/T-009_sun_probe_spec.md.
 
-That spec is Claude's own stand-in (no 風場-delivered sun probe spec existed
-for T-009 at write time -- see the spec file's header) -- not a validation
-of H_am/H_pm as an environmental field. See grid_roof/sun_field.py and
-fields/T-006_epw_wind_sun_spec.md for what remains unverified.
+That spec is the 風場-delivered, 挑洞-passed gold spec (see its header,
+2026-10-30 note in its §5) -- not a validation of H_am/H_pm as an
+environmental field. s_k and sample times come from
+fields/T-009_sun_sample_times.csv (the same fixture, "方案 A"); this file
+does not recompute solar position independently. See grid_roof/sun_field.py
+and fields/T-006_epw_wind_sun_spec.md for what remains unverified.
+
+Hard gates (fields/T-009_sun_probe_spec.md §3): P1/P2 am != pm, P7
+occlusion drops H, §2.1 sign check.
 """
 import numpy as np
 import pytest
@@ -11,17 +16,15 @@ import pytest
 from compas.datastructures import Mesh
 from compas.geometry import Box
 
-from grid_roof.fields_io import sun_vector_ground_to_sun
 from grid_roof.sun_field import (
-    day_of_year,
-    solar_position,
+    load_sun_sample_times,
     sun_field,
     sun_slot_contribution,
 )
 from grid_roof.wind_field import sample_outer_surface, triangulate_faces
 
-SUMMER_SOLSTICE = day_of_year(6, 21)
-WINTER_SOLSTICE = day_of_year(12, 21)
+SUMMER = "2025-06-21"
+WINTER = "2025-12-21"
 
 
 def _box(center, size):
@@ -31,19 +34,8 @@ def _box(center, size):
 
 
 def box0():
-    """TGT/BOX0: 1000^3 box centred at the origin (probe spec SS3/SS4)."""
+    """1000^3 box centred at the origin (probe spec §2, same convention as T-008 BOX0)."""
     return _box((0.0, 0.0, 0.0), (1000.0, 1000.0, 1000.0))
-
-
-def blk():
-    """BLK: 1000^3 blocker box, centre (3000,0,1000) (probe spec SS4)."""
-    return _box((3000.0, 0.0, 1000.0), (1000.0, 1000.0, 1000.0))
-
-
-def tgt_blk_scene():
-    mesh = box0()
-    mesh.join(blk())
-    return mesh
 
 
 def row_at(points, point, atol=1e-6):
@@ -52,68 +44,64 @@ def row_at(points, point, atol=1e-6):
     return i
 
 
-# -- SS2: solar_position sanity (spec SP1-SP4) --------------------------------
+# -- CSV fixture sanity --------------------------------------------------------
 
-def test_summer_solstice_noon_altitude_near_zenith():
-    # SP1: lat 22.006N is close to the Tropic of Cancer (~23.44N); at local
-    # noon on the summer solstice the sun is almost directly overhead.
-    altitude_deg, _ = solar_position(SUMMER_SOLSTICE, 12.0)
-    assert altitude_deg > 85.0
-
-
-def test_winter_solstice_noon_altitude_and_azimuth_are_lower_and_southerly():
-    # SP2: declination ~-23.4 deg -> much lower noon sun, due south.
-    altitude_deg, azimuth_deg = solar_position(WINTER_SOLSTICE, 12.0)
-    assert 40.0 < altitude_deg < 50.0
-    assert 170.0 < azimuth_deg < 190.0
+def test_csv_fixture_rows_have_positive_altitude_and_both_halves():
+    rows = load_sun_sample_times()
+    assert len(rows) == 47
+    assert all(r["alt_deg"] > 0.0 for r in rows)
+    assert {r["half"] for r in rows} == {"am", "pm"}
+    assert {r["date"] for r in rows} == {SUMMER, WINTER}
 
 
-@pytest.mark.parametrize("day", [SUMMER_SOLSTICE, WINTER_SOLSTICE])
-@pytest.mark.parametrize("hour", [6.0, 7.0, 8.0, 9.0, 10.0, 11.0])
-def test_morning_azimuth_is_in_the_eastern_half(day, hour):
-    # SP3: before local noon, the sun's azimuth sits in the eastern half.
-    _, azimuth_deg = solar_position(day, hour)
-    assert 0.0 <= azimuth_deg <= 180.0
+# -- §2.1: single-slot sign check (hard gate) ---------------------------------
+
+def test_section_2_1_sign_check_summer_morning_and_winter_afternoon():
+    # Closest CSV rows to the spec's worked examples (夏至 ~09:00, 冬至 ~15:00).
+    rows = load_sun_sample_times()
+    summer_0845 = next(r for r in rows if r["date"] == SUMMER and r["local_time"] == "08:45")
+    winter_1445 = next(r for r in rows if r["date"] == WINTER and r["local_time"] == "14:45")
+
+    mesh = box0()
+    points, normals = sample_outer_surface(mesh)
+    vertices, triangles = triangulate_faces(mesh)
+    i_east = row_at(points, (500.0, 0.0, 0.0))
+    i_west = row_at(points, (-500.0, 0.0, 0.0))
+    i_north = row_at(points, (0.0, 500.0, 0.0))
+    i_south = row_at(points, (0.0, -500.0, 0.0))
+
+    h_summer = sun_slot_contribution(
+        points, normals, vertices, triangles, summer_0845["s_k"], dt_hours=0.5,
+    )
+    assert h_summer[i_east] > 0.0 and h_summer[i_north] > 0.0
+    assert h_summer[i_west] == pytest.approx(0.0) and h_summer[i_south] == pytest.approx(0.0)
+
+    h_winter = sun_slot_contribution(
+        points, normals, vertices, triangles, winter_1445["s_k"], dt_hours=0.5,
+    )
+    assert h_winter[i_west] > 0.0 and h_winter[i_south] > 0.0
+    assert h_winter[i_east] == pytest.approx(0.0) and h_winter[i_north] == pytest.approx(0.0)
 
 
-@pytest.mark.parametrize("day", [SUMMER_SOLSTICE, WINTER_SOLSTICE])
-@pytest.mark.parametrize("hour", [13.0, 14.0, 15.0, 16.0, 17.0, 18.0])
-def test_afternoon_azimuth_is_in_the_western_half(day, hour):
-    # SP4: after local noon, the sun's azimuth sits in the western half.
-    _, azimuth_deg = solar_position(day, hour)
-    assert 180.0 <= azimuth_deg <= 360.0
+# -- P1/P2: east/west faces, summer (hard gate: am != pm) ---------------------
 
-
-# -- SS3: am/pm distribution differs on a synthetic box -----------------------
-
-@pytest.mark.parametrize("day,point,normal", [
-    (SUMMER_SOLSTICE, (500.0, 0.0, 0.0), (1.0, 0.0, 0.0)),    # D1_east_summer
-    (WINTER_SOLSTICE, (500.0, 0.0, 0.0), (1.0, 0.0, 0.0)),
-])
-def test_east_face_gets_only_morning_sun(day, point, normal):
-    result = sun_field(box0(), day, dt_hours=0.5)
-    i = row_at(result["points"], point)
-    assert result["normals"][i] == pytest.approx(normal, abs=1e-9)
+def test_east_face_summer_gets_only_morning_sun():
+    result = sun_field(box0(), SUMMER, dt_hours=0.5)
+    i = row_at(result["points"], (500.0, 0.0, 0.0))
     assert result["H_am"][i] > 0.0
     assert result["H_pm"][i] == pytest.approx(0.0, abs=1e-9)
 
 
-@pytest.mark.parametrize("day,point,normal", [
-    (SUMMER_SOLSTICE, (-500.0, 0.0, 0.0), (-1.0, 0.0, 0.0)),  # D2_west_summer
-    (WINTER_SOLSTICE, (-500.0, 0.0, 0.0), (-1.0, 0.0, 0.0)),
-])
-def test_west_face_gets_only_afternoon_sun(day, point, normal):
-    result = sun_field(box0(), day, dt_hours=0.5)
-    i = row_at(result["points"], point)
-    assert result["normals"][i] == pytest.approx(normal, abs=1e-9)
+def test_west_face_summer_gets_only_afternoon_sun():
+    result = sun_field(box0(), SUMMER, dt_hours=0.5)
+    i = row_at(result["points"], (-500.0, 0.0, 0.0))
     assert result["H_am"][i] == pytest.approx(0.0, abs=1e-9)
     assert result["H_pm"][i] > 0.0
 
 
 def test_am_and_pm_distributions_differ_on_the_same_box():
-    # The headline T-009 pass condition: am and pm distributions are not the
-    # same. East vs west faces flip which half of the day they catch sun.
-    result = sun_field(box0(), SUMMER_SOLSTICE, dt_hours=0.5)
+    # The headline T-009 pass condition.
+    result = sun_field(box0(), SUMMER, dt_hours=0.5)
     i_east = row_at(result["points"], (500.0, 0.0, 0.0))
     i_west = row_at(result["points"], (-500.0, 0.0, 0.0))
     assert result["H_am"][i_east] != pytest.approx(result["H_pm"][i_east])
@@ -121,64 +109,71 @@ def test_am_and_pm_distributions_differ_on_the_same_box():
     assert result["H_am"][i_east] != pytest.approx(result["H_am"][i_west])
 
 
-def test_north_face_summer_vs_winter_flips_from_lit_to_dark():
-    # D3_north_summer / D6_north_winter: at this latitude, close to the
-    # Tropic of Cancer, the summer-solstice sun passes just north of
-    # zenith (declination > latitude), lighting the north face all day;
-    # the winter-solstice sun stays well south, leaving it dark all day.
-    summer = sun_field(box0(), SUMMER_SOLSTICE, dt_hours=0.5)
-    winter = sun_field(box0(), WINTER_SOLSTICE, dt_hours=0.5)
+# -- P3/P4/P5: north/south faces, summer vs winter -----------------------------
+
+def test_north_face_summer_lit_winter_dark():
+    summer = sun_field(box0(), SUMMER, dt_hours=0.5)
+    winter = sun_field(box0(), WINTER, dt_hours=0.5)
     i = row_at(summer["points"], (0.0, 500.0, 0.0))
     assert summer["H_am"][i] > 0.0 and summer["H_pm"][i] > 0.0
     assert winter["H_am"][i] == pytest.approx(0.0, abs=1e-9)
     assert winter["H_pm"][i] == pytest.approx(0.0, abs=1e-9)
 
 
+def test_south_face_winter_lit_summer_dark():
+    summer = sun_field(box0(), SUMMER, dt_hours=0.5)
+    winter = sun_field(box0(), WINTER, dt_hours=0.5)
+    i = row_at(summer["points"], (0.0, -500.0, 0.0))
+    assert summer["H_am"][i] == pytest.approx(0.0, abs=1e-9)
+    assert summer["H_pm"][i] == pytest.approx(0.0, abs=1e-9)
+    assert winter["H_am"][i] > 0.0 and winter["H_pm"][i] > 0.0
+
+
+# -- P6: top face, exact hour count (no self-occlusion on a convex box) -------
+
+def test_top_face_hours_match_csv_sample_counts():
+    for date in (SUMMER, WINTER):
+        result = sun_field(box0(), date, dt_hours=0.5)
+        i = row_at(result["points"], (0.0, 0.0, 500.0))
+        assert result["H_am"][i] == pytest.approx(result["n_samples_am"] * 0.5)
+        assert result["H_pm"][i] == pytest.approx(result["n_samples_pm"] * 0.5)
+
+
+# -- P7: occlusion drops H (hard gate) -----------------------------------------
+
+def test_occlusion_drops_summer_morning_h_on_east_face():
+    # probe spec P7 geometry: main box [0,1000]^3, blocker box
+    # X in [1500,2500], Y in [0,1000], Z in [0,3000]; east face centre
+    # (1000, 500, 500). Low summer-morning sun angles clip the blocker;
+    # high angles clear it, so only a drop (not a wipeout) is asserted.
+    main = _box((500.0, 500.0, 500.0), (1000.0, 1000.0, 1000.0))
+    blocker = _box((2000.0, 500.0, 1500.0), (1000.0, 1000.0, 3000.0))
+    scene = main.copy()
+    scene.join(blocker)
+
+    unoccluded = sun_field(main, SUMMER, dt_hours=0.5)
+    occluded = sun_field(scene, SUMMER, dt_hours=0.5)
+
+    i_u = row_at(unoccluded["points"], (1000.0, 500.0, 500.0))
+    i_o = row_at(occluded["points"], (1000.0, 500.0, 500.0))
+
+    assert occluded["H_am"][i_o] < unoccluded["H_am"][i_u]
+    assert occluded["H_am"][i_o] >= 0.0
+
+
+# -- global invariants ---------------------------------------------------------
+
 def test_global_invariants_hold_on_box0():
-    result = sun_field(box0(), SUMMER_SOLSTICE, dt_hours=0.5)
-    window_h = result["am_hours"][1] - result["am_hours"][0]
-    assert (result["H_am"] >= 0.0).all() and (result["H_am"] <= window_h + 1e-9).all()
-    assert (result["H_pm"] >= 0.0).all() and (result["H_pm"] <= window_h + 1e-9).all()
+    for date in (SUMMER, WINTER):
+        result = sun_field(box0(), date, dt_hours=0.5)
+        am_cap = result["n_samples_am"] * 0.5
+        pm_cap = result["n_samples_pm"] * 0.5
+        assert (result["H_am"] >= 0.0).all() and (result["H_am"] <= am_cap + 1e-9).all()
+        assert (result["H_pm"] >= 0.0).all() and (result["H_pm"] <= pm_cap + 1e-9).all()
 
 
-# -- SS4: occlusion smoke test (fixed altitude/azimuth, bypasses solar_position) ---
+# -- error handling -------------------------------------------------------------
 
-ALTITUDE_DEG = 30.0
-AZIMUTH_DEG = 90.0
-
-
-def test_occlusion_blocks_the_ray_and_drops_h_to_zero():
-    # E1_occluded vs E2_control: same point/normal, same fixed sun
-    # position; only the presence of BLK differs.
-    points, normals = sample_outer_surface(tgt_blk_scene())
-    vertices, triangles = triangulate_faces(tgt_blk_scene())
-    i = row_at(points, (500.0, 0.0, 0.0))
-    occluded_H = sun_slot_contribution(
-        points, normals, vertices, triangles, ALTITUDE_DEG, AZIMUTH_DEG, dt_hours=1.0,
-    )[i]
-
-    points_c, normals_c = sample_outer_surface(box0())
-    vertices_c, triangles_c = triangulate_faces(box0())
-    i_c = row_at(points_c, (500.0, 0.0, 0.0))
-    control_H = sun_slot_contribution(
-        points_c, normals_c, vertices_c, triangles_c, ALTITUDE_DEG, AZIMUTH_DEG, dt_hours=1.0,
-    )[i_c]
-
-    assert occluded_H == pytest.approx(0.0)
-    assert control_H == pytest.approx(1.0)
-    assert occluded_H < control_H  # occlusion effect itself
-
-
-def test_sun_slot_contribution_zero_below_horizon():
-    points, normals = sample_outer_surface(box0())
-    vertices, triangles = triangulate_faces(box0())
-    H = sun_slot_contribution(points, normals, vertices, triangles,
-                               altitude_deg=-5.0, azimuth_deg=90.0, dt_hours=1.0)
-    assert (H == 0.0).all()
-
-
-def test_sun_vector_matches_fixed_occlusion_geometry():
-    # Sanity-check the locked (altitude, azimuth) -> s_k used by the
-    # occlusion probes against the probe spec's worked-out s_k.
-    s_k = sun_vector_ground_to_sun(ALTITUDE_DEG, AZIMUTH_DEG)
-    assert np.allclose(s_k, (0.8660254, 0.0, 0.5), atol=1e-6)
+def test_sun_field_raises_for_unknown_date():
+    with pytest.raises(ValueError):
+        sun_field(box0(), "2025-01-01", dt_hours=0.5)
