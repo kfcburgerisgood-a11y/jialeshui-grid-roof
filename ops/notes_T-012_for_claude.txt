@@ -1,0 +1,1 @@
+T-012：只做 openings 反算函式＋pytest。e_max=100mm 推定；s 用 T-009 夏至 09:00。勿改 voids/drawing/water/pores/四場。勿重算太陽。報未驗證。超過 60 分 PARTIAL。

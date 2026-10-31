@@ -1,6 +1,7 @@
 # 久逃 ops 狀態（STATE）
 
-- 分支：`m3-fields`
-- 里程碑：M2 限定通過；**四場骨架 DONE**（W_eff／H_am·H_pm／S／salt）；整顆 M3 若需「彩色表面同點預覽」另卡，否則可進 M4
-- 下一刀候選：M3 預覽收斂 ｜ M4 openings
-- 推定仍多（ENE、α、u_sea、λ…）；§8 未決
+- 正本：`/workspace/jialeshui/workshop/jialeshui-grid-roof`
+- 分支：`m4-openings`（自 `m3-fields` @ fda5ea3）
+- 里程碑：M2 限定通過；M3 四場骨架 DONE；**進行中 M4／T-012**（光孔反算最小煙測）
+- 煙測鎖：`e_max=100mm`（推定）；`s`＝T-009 夏至 09:00
+- 推定仍多（ENE、α、u_sea、λ_salt、e_max…）；§8 未決
