@@ -75,6 +75,9 @@ class Brief:
     halo: float = 320.0                 # margin each piece is weathered with
     voxel: float = 40.0                 # 40 to look, 10 - 15 to make
 
+    # light openings (M4, T-012)
+    e_max: float = 100.0                # 推定 opening-inversion spot error smoke bound, mm
+
     @property
     def bounds(self):
         """tuple: ``(xmin, ymin, zmin, xmax, ymax, zmax)`` of the slab."""
